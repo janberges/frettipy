@@ -1,0 +1,6 @@
+#!/bin/bash
+
+for py in `find -name '*.py'`
+do
+    prettipy "$py"
+done
