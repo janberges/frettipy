@@ -1,0 +1,148 @@
+#!/usr/bin/env python3
+
+"""Usage: prettipy filename.py
+
+This script formats Python source code following certain style conventions (see
+uppercase comments). The file given as command argument is modified in-place.
+"""
+
+import re
+import sys
+
+if len(sys.argv) > 1:
+    filename = sys.argv[1]
+else:
+    raise SystemExit(__doc__.strip())
+
+# read file:
+
+with open(filename) as codefile:
+    code = codefile.read()
+
+# functions to isolate groups and put them back:
+
+groups = []
+
+def replace(match):
+    groups.append(match.group(0))
+    return '___%d___' % len(groups)
+
+def place(match):
+    return groups[int(match.group(0).strip('_')) - 1]
+
+# isolate multi-line strings:
+
+code = re.sub(r'([\'"]{3}).*?[^\\]\1', replace, code, flags=re.DOTALL)
+
+# isolate single-line strings:
+
+code = re.sub(r'([\'"]).*?[^\\]\1', replace, code)
+
+# isolate comments:
+
+code, N = re.subn('#.*', replace, code)
+
+for n in range(len(groups) - N, len(groups)):
+    count = 1
+    while count:
+        groups[n], count = re.subn('___\d+___', place, groups[n])
+
+# isolate expressions in brackets:
+
+while re.search('[([{]', code):
+    for opener, closer in '()', '[]', '{}':
+        code = re.sub(r'\%s[^()[\]{}]*\%s' % (opener, closer), replace, code,
+            flags=re.DOTALL | re.MULTILINE)
+
+# define overarching group for convenience:
+
+code = re.sub('.+', replace, code, flags=re.DOTALL)
+
+# define operators:
+
+unary = '\+|-|~|\^' # currently unused
+binary = '\+|-|\*\*?|//?|%|&|\||<<|>>'
+comparison = '<=?|>=?|=='
+assignment = '(%s)?=' % binary
+
+# fix style of all groups:
+
+for n in range(len(groups)):
+    if re.match(r'[\'"#]', groups[n]):
+        # PREFER SINGLE OVER DOUBLE QUOTATION MARKS:
+        groups[n] = re.sub(r'^"([^"\']*)"$', r"'\1'", groups[n])
+        continue
+
+    # isolate exponential numbers:
+    groups[n] = re.sub('[0-9.]+e[+-]?[0-9]+', replace, groups[n])
+
+    # SPACES AROUND BINARY OPERATORS:
+    groups[n] = re.sub(r'(?<=\w) ?(%s) ?(?=\w)' % binary, r' \1 ',
+        groups[n])
+
+    # SPACES AROUND COMPARISON OPERATORS:
+    groups[n] = re.sub(r'(?<=\w) ?(%s) ?(?=\w)' % comparison, r' \1 ',
+        groups[n])
+
+    if re.match('[([{]', groups[n]):
+        # NO SPACES AROUND THE ARGUMENT-ASSIGNMENT OPERATOR:
+        groups[n] = re.sub(r'(?<=\w) *= *(?=\w)', '=', groups[n])
+
+        # NO SPACES ON THE INNER SIDE OF BRACKETS:
+        groups[n] = re.sub(r'([([{]) +(\S)', r'\1\2', groups[n])
+        groups[n] = re.sub(r'(\S) +([)\]}])', r'\1\2', groups[n])
+
+        if re.match('\[', groups[n]):
+            # SLICES: NO SPACES AROUND SLICE OPERATORS:
+            groups[n] = re.sub(r' *(:|\.{3}) *', r'\1', groups[n])
+
+            # isolate slice operators:
+            groups[n] = re.sub(r'(:|\.{3})', replace, groups[n])
+
+        elif re.match('\{', groups[n]):
+            # DICTIONARIES: SPACES AFTER COLON (BUT NOT BEFORE):
+            groups[n] = re.sub(r'(?<=\w) *: ?(?=\w)', ': ', groups[n])
+
+    else:
+        # SPACES AROUND ASSIGNMENT OPERATORS:
+        groups[n] = re.sub(r'(?<=\w) ?(%s) ?(?=\w)' % assignment, r' \1 ',
+            groups[n])
+
+        # BLOCK INITIATION: NO SPACES BEFORE COLON:
+        groups[n] = re.sub(r'(?<=\w) *:', ':', groups[n])
+
+    # SPACES AFTER COMMAS (BUT NOT BEFORE):
+    groups[n] = re.sub(r'(?<=\w) *, ?(?=\w)', ', ', groups[n])
+
+    # NO DOUBLE SPACES:
+    groups[n] = re.sub(r'(?<=\S) {2,}(?=\S)', ' ', groups[n])
+
+# reinsert isolated groups:
+
+count = 1
+while count:
+    code, count = re.subn('___\d+___', place, code)
+
+# FOUR SPACES INSTEAD OF TABS:
+code = re.sub(r'\t', ' ' * 4, code)
+
+# NO TRAILING WHITESPACE:
+code = re.sub(' +$', '', code, flags=re.MULTILINE)
+
+# NO DOUBLE BLANK LINES:
+code = re.sub(r'\n{3,}', '\n' * 2, code)
+
+# write file:
+
+with open(filename, 'w') as codefile:
+    codefile.write(code)
+
+# show (too) long lines:
+
+with open(filename) as codefile:
+    for n, line in enumerate(codefile, 1):
+        line = line.rstrip()
+
+        if len(line) > 79:
+            print('\033[0;33mLine %s exceeds 79 columns:\033[0m' % n)
+            print(line)
