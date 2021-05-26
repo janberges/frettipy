@@ -2,5 +2,6 @@
 
 for py in `find -name '*.py'`
 do
+    echo -e "\033[0;32mPrettifying file $py\033[0m"
     prettipy "$py"
 done
