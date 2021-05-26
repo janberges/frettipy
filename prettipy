@@ -150,6 +150,6 @@ with open(filename) as codefile:
     for n, line in enumerate(codefile, 1):
         line = line.rstrip()
 
-        if len(line) > 79:
-            print('\033[0;33mLine %s exceeds 79 columns:\033[0m' % n)
+        if len(line) > 80:
+            print('\033[0;33mLine %s exceeds 80 columns:\033[0m' % n)
             print(line)
