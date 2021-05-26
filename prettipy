@@ -30,6 +30,12 @@ def replace(match):
 def place(match):
     return groups[int(match.group(0).strip('_')) - 1]
 
+def dereference(text):
+    while True:
+        text, count = re.subn('___\d+___', place, text)
+        if not count:
+            return text
+
 # isolate multi-line strings:
 
 code = re.sub(r'([\'"]{3}).*?[^\\]\1', replace, code, flags=re.DOTALL)
@@ -43,9 +49,7 @@ code = re.sub(r'([\'"]).*?[^\\]\1', replace, code)
 code, N = re.subn('#.*', replace, code)
 
 for n in range(len(groups) - N, len(groups)):
-    count = 1
-    while count:
-        groups[n], count = re.subn('___\d+___', place, groups[n])
+    groups[n] = dereference(groups[n])
 
 # isolate expressions in brackets:
 
@@ -53,6 +57,11 @@ while re.search('[([{]', code):
     for opener, closer in '()', '[]', '{}':
         code = re.sub(r'\%s[^()[\]{}]*\%s' % (opener, closer), replace, code,
             flags=re.DOTALL | re.MULTILINE)
+
+code, N = re.subn('np\.array___\d+___', replace, code)
+
+for n in range(len(groups) - N, len(groups)):
+    groups[n] = dereference(groups[n])
 
 # define overarching group for convenience:
 
@@ -68,7 +77,7 @@ assignment = '(%s)?=' % binary
 # fix style of all groups:
 
 for n in range(len(groups)):
-    if re.match(r'[\'"#]', groups[n]):
+    if re.match(r'[\'"#]|np\.array', groups[n]):
         # PREFER SINGLE OVER DOUBLE QUOTATION MARKS:
         groups[n] = re.sub(r'^"([^"\']*)"$', r"'\1'", groups[n])
         continue
@@ -119,9 +128,7 @@ for n in range(len(groups)):
 
 # reinsert isolated groups:
 
-count = 1
-while count:
-    code, count = re.subn('___\d+___', place, code)
+code = dereference(code)
 
 # FOUR SPACES INSTEAD OF TABS:
 code = re.sub(r'\t', ' ' * 4, code)
