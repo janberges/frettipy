@@ -3,7 +3,7 @@
 """Usage: prettipy filename.py
 
 This script formats Python source code following certain style conventions (see
-uppercase comments). The file given as command argument is modified in-place.
+uppercase comments). The file given as command argument is modified in place.
 """
 
 import re
