@@ -126,6 +126,11 @@ for n in range(len(groups)):
     # NO DOUBLE SPACES:
     groups[n] = re.sub(r'(?<=\S) {2,}(?=\S)', ' ', groups[n])
 
+    # SINGLE SPACE BETWEEN NON-WHITESPACE CHARACTER AND COMMENT:
+    groups[n] = re.sub(r'(?<=\S)___\d+___', lambda match:
+        (' ' if re.match('#', place(match)) else '') + match.group(0),
+        groups[n])
+
 # reinsert isolated groups:
 
 code = dereference(code)
