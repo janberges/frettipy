@@ -69,7 +69,7 @@ code = re.sub('.+', replace, code, flags=re.DOTALL)
 
 # define operators:
 
-unary = '\+|-|~|\^' # currently unused
+unary = '\+|-|~|\^'
 binary = '\+|-|\*\*?|//?|%|&|\||<<|>>'
 comparison = '<=?|>=?|=='
 assignment = '(%s)?=' % binary
@@ -88,6 +88,12 @@ for n in range(len(groups)):
     # SPACES AROUND BINARY OPERATORS:
     groups[n] = re.sub(r'(?<=\w) ?(%s) ?(?=\w)' % binary, r' \1 ',
         groups[n])
+
+    # NO SPACE AFTER UNARY OPERATORS:
+    groups[n] = re.sub(r'(?<![\w\s])( *(%s)) +(?=\w)' % unary, r'\1', groups[n])
+
+    # isolate unary operators:
+    groups[n] = re.sub(r'(%s)(?=\w)' % unary, replace, groups[n])
 
     # SPACES AROUND COMPARISON OPERATORS:
     groups[n] = re.sub(r'(?<=\w) ?(%s) ?(?=\w)' % comparison, r' \1 ',
