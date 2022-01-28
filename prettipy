@@ -55,8 +55,7 @@ for n in range(len(groups) - N, len(groups)):
 
 while re.search('[([{]', code):
     for opener, closer in '()', '[]', '{}':
-        code = re.sub(r'\%s[^()[\]{}]*\%s' % (opener, closer), replace, code,
-            flags=re.DOTALL | re.MULTILINE)
+        code = re.sub(r'\%s[^()[\]{}]*\%s' % (opener, closer), replace, code)
 
 code, N = re.subn('np\.array___\d+___', replace, code)
 
