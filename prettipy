@@ -73,6 +73,10 @@ binary = '\+|-|\*\*?|//?|%|&|\||<<|>>'
 comparison = '<=?|>=?|=='
 assignment = '(%s)?=' % binary
 
+# define keywords that indicate start of expression:
+
+keywords = {'return', 'if', 'else', 'in'}
+
 # fix style of all groups:
 
 for n in range(len(groups)):
@@ -85,7 +89,8 @@ for n in range(len(groups)):
     groups[n] = re.sub('[0-9.]+e[+-]?[0-9]+', replace, groups[n])
 
     # SPACES AROUND BINARY OPERATORS:
-    groups[n] = re.sub(r'(?<=\w) ?(%s) ?(?=\w)' % binary, r' \1 ',
+    groups[n] = re.sub(r'(\w+) ?(%s) ?(?=\w)' % binary, lambda match:
+        ('%s %s' if match.group(1) in keywords else '%s %s ') % match.groups(),
         groups[n])
 
     # NO SPACE AFTER UNARY OPERATORS:
