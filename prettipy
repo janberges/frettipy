@@ -2,8 +2,8 @@
 
 """Usage: prettipy filename.py
 
-This script formats Python source code following certain style conventions (see
-uppercase comments). The file given as command argument is modified in place.
+This script formats Python source code following the below style conventions.
+The file given as command argument is modified in place!
 """
 
 import re
@@ -12,7 +12,13 @@ import sys
 if len(sys.argv) > 1:
     filename = sys.argv[1]
 else:
-    raise SystemExit(__doc__.strip())
+    print(__doc__)
+
+    with open(__file__) as self:
+        for rule in re.findall(r'# ([^a-z]+):', self.read()):
+            print('*', rule.capitalize())
+
+    raise SystemExit
 
 # read file:
 
