@@ -154,6 +154,12 @@ code = re.sub(' +$', '', code, flags=re.MULTILINE)
 # NO DOUBLE BLANK LINES:
 code = re.sub(r'\n{3,}', '\n' * 2, code)
 
+# NO BLANK LINE AT END OF FILE:
+code = re.sub(r'\n{2,}\Z', '\n' * 1, code)
+
+# NO BLANK LINE AT BEGINNING OF FILE:
+code = re.sub(r'\A\n{1,}', '\n' * 0, code)
+
 # write file:
 
 with open(filename, 'w') as codefile:
