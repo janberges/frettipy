@@ -3,6 +3,7 @@
 Format Python source code in place.
 
 * Prefer single over double quotation marks
+* Do not omit zero before or after decimal point
 * Spaces around binary operators
 * No space after unary operators
 * Spaces around comparison operators

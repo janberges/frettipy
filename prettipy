@@ -94,6 +94,10 @@ for n in range(len(groups)):
     # isolate exponential numbers:
     groups[n] = re.sub('[0-9.]+e[+-]?[0-9]+', replace, groups[n])
 
+    # DO NOT OMIT ZERO BEFORE OR AFTER DECIMAL POINT:
+    groups[n] = re.sub(r'\b\d+\.\B', r'\g<0>0', groups[n])
+    groups[n] = re.sub(r'\B\.\d+\b', r'0\g<0>', groups[n])
+
     # SPACES AROUND BINARY OPERATORS:
     groups[n] = re.sub(r'(\w+) ?(%s) ?(?=\w)' % binary, lambda match:
         ('%s %s' if match.group(1) in keywords else '%s %s ') % match.groups(),
