@@ -42,6 +42,10 @@ def dereference(text):
         if not count:
             return text
 
+# isolate repeated quotes used as visual separators:
+
+code = re.sub(r'(\'\'){2,}|(""){2,}', replace, code, flags=re.DOTALL)
+
 # isolate multi-line strings:
 
 code = re.sub(r'(\'\'\'|""").*?[^\\]\1', replace, code, flags=re.DOTALL)
