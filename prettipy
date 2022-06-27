@@ -44,7 +44,7 @@ def dereference(text):
 
 # isolate repeated quotes used as visual separators:
 
-code = re.sub(r'(\'\'){2,}|(""){2,}', replace, code, flags=re.DOTALL)
+code = re.sub(r'(\'\'){5,}|(""){5,}', replace, code, flags=re.DOTALL)
 
 # isolate strings:
 
