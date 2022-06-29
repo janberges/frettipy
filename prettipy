@@ -1,16 +1,33 @@
 #!/usr/bin/env python3
 
-"""Usage: prettipy filename.py
+"""Usage: prettipy FILE
 
 This script formats Python source code following the below style conventions.
-The file given as command argument is modified in place!
+FILE WILL BE MODIFIED IN PLACE! If FILE IS A DIRECTORY, ALL .py FILES IN THE
+DIRECTORY TREE WILL BE MODIFIED IN PLACE!
 """
 
+import os
 import re
+import subprocess
 import sys
 
 if len(sys.argv) > 1:
     filename = sys.argv[1]
+
+    if os.path.isdir(filename):
+        for path, folders, documents in os.walk(filename):
+            folders[:] = [folder for folder in folders
+                if not folder.startswith('.')]
+
+            for document in documents:
+                if document.endswith('.py') and not document.startswith('.'):
+                    script = os.path.join(path, document)
+
+                    print("\033[0;32mPrettifying file %s\033[0m" % script)
+                    subprocess.call([__file__, script])
+
+        raise SystemExit
 else:
     print(__doc__)
 
