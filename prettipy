@@ -60,7 +60,7 @@ if recurse:
                 if document.endswith('.py') and not document.startswith('.'):
                     script = os.path.join(path, document)
 
-                    print("\033[0;32mPrettifying file %s\033[0m" % script)
+                    print('\033[0;32mPrettifying file %s\033[0m' % script)
                     subprocess.call([__file__] + ['-f'] * modify + [script])
 
         raise SystemExit
