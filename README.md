@@ -23,3 +23,13 @@ No fretting about pretty Python.
 * No blank line at beginning of file
 
 **Use with care! Python files are modified recursively and in place!**
+
+## Installation
+
+Either from PyPI:
+
+    python3 -m pip install frettipy
+
+Or from GitHub:
+
+    python3 -m pip install git+https://github.com/janberges/frettipy
