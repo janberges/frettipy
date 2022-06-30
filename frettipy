@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-"""Usage: prettipy [-f] [-r] FILE
+"""Usage: frettipy [-f] [-r] FILE
 
 This script formats Python source code following the below style conventions.
 IF -f IS GIVEN, FILE WILL BE MODIFIED IN PLACE! If -r IS GIVEN AND FILE IS A

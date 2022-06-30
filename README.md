@@ -1,6 +1,6 @@
-# prett&#7433;py
+# frettipy
 
-Format Python source code in place.
+No fretting about pretty Python.
 
 * Prefer single over double quotation marks
 * Do not omit zero before or after decimal point
