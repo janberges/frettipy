@@ -127,7 +127,8 @@ assignment = '(%s)?=' % binary
 
 # define keywords that indicate start of expression:
 
-keywords = {'return', 'if', 'else', 'in'}
+keywords = {'and', 'assert', 'elif', 'else', 'if', 'in', 'is', 'not', 'or',
+    'return', 'while', 'yield'}
 
 # fix style of all groups:
 
