@@ -106,8 +106,17 @@ for n in range(len(groups) - N, len(groups)):
 # isolate expressions in brackets:
 
 while re.search('[([{]', code):
+    count = 0
+
     for opener, closer in '()', '[]', '{}':
-        code = re.sub(r'\%s[^()[\]{}]*\%s' % (opener, closer), replace, code)
+        code, N = re.subn(r'\%s[^()[\]{}]*\%s' % (opener, closer), replace,
+            code)
+
+        count += N
+
+    if not count:
+        print('\033[0;33mUnmatched parenthesis found!\033[0m')
+        break
 
 code, N = re.subn(r'np\.array___\d+___', replace, code)
 
