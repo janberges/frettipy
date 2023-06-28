@@ -16,6 +16,7 @@ No fretting about pretty Python.
 * Spaces after commas (but not before)
 * No double spaces
 * Single space between non-whitespace character and comment
+* No space before opening bracket except after keyword
 * Four spaces instead of tabs
 * No trailing whitespace
 * No double blank lines
