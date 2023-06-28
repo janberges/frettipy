@@ -213,7 +213,7 @@ for n in range(len(groups)):
         (' ' if re.match('#', place(match)) else '') + match.group(0),
         groups[n])
 
-    # NO SPACE BEFORE OPENING BRACKET EXCEPT AFTER KEYWORD:
+    # NO SPACE BEFORE OPENING BRACKET (EXCEPT AFTER KEYWORD):
     groups[n] = re.sub(r'(\w+) *(___\d+___)', lambda match:
         match.group(1) + ' ' * (match.group(1) in keywords) + match.group(2)
         if re.match('[([{]', dereference(match.group(2))) else match.group(0),
