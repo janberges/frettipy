@@ -3,8 +3,12 @@
 """Usage: frettipy [-f] [-r] FILE
 
 This script formats Python source code following the below style conventions.
-IF -f IS GIVEN, FILE WILL BE MODIFIED IN PLACE! If -r IS GIVEN AND FILE IS A
-DIRECTORY, ALL .py FILES IN THE DIRECTORY TREE WILL BE PROCESSED!
+
+If `-f` is present, `FILE` **is modified in place!** Keep a copy or use version
+control. Otherwise the intended modifications are shown without changing `FILE`.
+
+If `-r` is present and `FILE` is a directory, **all .py files in the directory
+tree are processed!**
 """
 
 import re
