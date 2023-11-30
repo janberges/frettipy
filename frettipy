@@ -151,7 +151,7 @@ keywords = {'and', 'as', 'assert', 'async', 'await', 'break', 'class',
 
 for n in range(len(groups)):
     if re.match(r'[\'"#]|np\.array', groups[n]):
-        # PREFER SINGLE OVER DOUBLE QUOTATION MARKS:
+        # PREFER SINGLE OVER DOUBLE QUOTATION MARK:
         groups[n] = re.sub(r'^"([^"\']*)"$', r"'\1'", groups[n])
         continue
 
@@ -162,49 +162,49 @@ for n in range(len(groups)):
     groups[n] = re.sub(r'\b\d+\.\B', r'\g<0>0', groups[n])
     groups[n] = re.sub(r'\B\.\d+\b', r'0\g<0>', groups[n])
 
-    # SPACES AROUND BINARY OPERATORS:
+    # SPACES AROUND BINARY OPERATOR:
     groups[n] = re.sub(r'(\w+) *(%s) *(?=\w)' % binary, lambda match:
         ('%s %s' if match.group(1) in keywords else '%s %s ') % match.groups(),
         groups[n])
 
-    # NO SPACE AFTER UNARY OPERATORS:
+    # NO SPACE AFTER UNARY OPERATOR:
     groups[n] = re.sub(r'(?<![\w\s])( *(%s)) +(?=\w)' % unary, r'\1', groups[n])
 
     # isolate unary operators:
     groups[n] = re.sub(r'(%s)(?=\w)' % unary, replace, groups[n])
 
-    # SPACES AROUND COMPARISON OPERATORS:
+    # SPACES AROUND COMPARISON OPERATOR:
     groups[n] = re.sub(r'(?<=\w) *(%s) *(?=\w)' % comparison, r' \1 ',
         groups[n])
 
     if re.match('[([{]', groups[n]):
-        # NO SPACES AROUND THE ARGUMENT-ASSIGNMENT OPERATOR:
+        # NO SPACES AROUND ARGUMENT-ASSIGNMENT OPERATOR:
         groups[n] = re.sub(r'(?<=\w) *= *(?=\w)', '=', groups[n])
 
-        # NO SPACES ON THE INNER SIDE OF BRACKETS:
+        # NO SPACE ON INNER SIDE OF BRACKET:
         groups[n] = re.sub(r'([([{]) +(\S)', r'\1\2', groups[n])
         groups[n] = re.sub(r'(\S) +([)\]}])', r'\1\2', groups[n])
 
         if re.match(r'\[', groups[n]):
-            # SLICES: NO SPACES AROUND SLICE OPERATORS:
+            # SLICES: NO SPACES AROUND SLICE OPERATOR:
             groups[n] = re.sub(r' *(:|\.{3}) *', r'\1', groups[n])
 
             # isolate slice operators:
             groups[n] = re.sub(r'(:|\.{3})', replace, groups[n])
 
         elif re.match(r'\{', groups[n]):
-            # DICTIONARIES: SPACES AFTER COLON (BUT NOT BEFORE):
+            # DICTIONARIES: SPACE AFTER COLON (BUT NOT BEFORE):
             groups[n] = re.sub(r'(?<=\w) *: *(?=\w)', ': ', groups[n])
 
     else:
-        # SPACES AROUND ASSIGNMENT OPERATORS:
+        # SPACES AROUND ASSIGNMENT OPERATOR:
         groups[n] = re.sub(r'(?<=\w) *(%s) *(?=\w)' % assignment, r' \1 ',
             groups[n])
 
-        # BLOCK INITIATION: NO SPACES BEFORE COLON:
+        # BLOCK INITIATION: NO SPACE BEFORE COLON:
         groups[n] = re.sub(r'(?<=\w) *:', ':', groups[n])
 
-    # SPACES AFTER COMMAS (BUT NOT BEFORE):
+    # SPACE AFTER COMMA (BUT NOT BEFORE):
     groups[n] = re.sub(r'(?<=\w) *, *(?=\w)', ', ', groups[n])
 
     # NO DOUBLE SPACES:
@@ -225,7 +225,7 @@ for n in range(len(groups)):
 
 code = dereference(code)
 
-# FOUR SPACES INSTEAD OF TABS:
+# INDENTATION WITH FOUR SPACES INSTEAD OF TABS:
 code = re.sub(r'\t', ' ' * 4, code)
 
 # NO TRAILING WHITESPACE:

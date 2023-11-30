@@ -2,22 +2,22 @@
 
 No fretting about pretty Python.
 
-* Prefer single over double quotation marks
+* Prefer single over double quotation mark
 * Do not omit zero before or after decimal point
-* Spaces around binary operators
-* No space after unary operators
-* Spaces around comparison operators
-* No spaces around the argument-assignment operator
-* No spaces on the inner side of brackets
-* Slices: no spaces around slice operators
-* Dictionaries: spaces after colon (but not before)
-* Spaces around assignment operators
-* Block initiation: no spaces before colon
-* Spaces after commas (but not before)
+* Spaces around binary operator
+* No space after unary operator
+* Spaces around comparison operator
+* No spaces around argument-assignment operator
+* No space on inner side of bracket
+* Slices: no spaces around slice operator
+* Dictionaries: space after colon (but not before)
+* Spaces around assignment operator
+* Block initiation: no space before colon
+* Space after comma (but not before)
 * No double spaces
 * Single space between non-whitespace character and comment
 * No space before opening bracket (except after keyword)
-* Four spaces instead of tabs
+* Indentation with four spaces instead of tabs
 * No trailing whitespace
 * No double blank lines
 * No blank line at end of file
