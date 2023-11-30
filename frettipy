@@ -163,7 +163,7 @@ for n in range(len(groups)):
     groups[n] = re.sub(r'\B\.\d+\b', r'0\g<0>', groups[n])
 
     # SPACES AROUND BINARY OPERATORS:
-    groups[n] = re.sub(r'(\w+) ?(%s) ?(?=\w)' % binary, lambda match:
+    groups[n] = re.sub(r'(\w+) *(%s) *(?=\w)' % binary, lambda match:
         ('%s %s' if match.group(1) in keywords else '%s %s ') % match.groups(),
         groups[n])
 
@@ -174,7 +174,7 @@ for n in range(len(groups)):
     groups[n] = re.sub(r'(%s)(?=\w)' % unary, replace, groups[n])
 
     # SPACES AROUND COMPARISON OPERATORS:
-    groups[n] = re.sub(r'(?<=\w) ?(%s) ?(?=\w)' % comparison, r' \1 ',
+    groups[n] = re.sub(r'(?<=\w) *(%s) *(?=\w)' % comparison, r' \1 ',
         groups[n])
 
     if re.match('[([{]', groups[n]):
@@ -194,18 +194,18 @@ for n in range(len(groups)):
 
         elif re.match(r'\{', groups[n]):
             # DICTIONARIES: SPACES AFTER COLON (BUT NOT BEFORE):
-            groups[n] = re.sub(r'(?<=\w) *: ?(?=\w)', ': ', groups[n])
+            groups[n] = re.sub(r'(?<=\w) *: *(?=\w)', ': ', groups[n])
 
     else:
         # SPACES AROUND ASSIGNMENT OPERATORS:
-        groups[n] = re.sub(r'(?<=\w) ?(%s) ?(?=\w)' % assignment, r' \1 ',
+        groups[n] = re.sub(r'(?<=\w) *(%s) *(?=\w)' % assignment, r' \1 ',
             groups[n])
 
         # BLOCK INITIATION: NO SPACES BEFORE COLON:
         groups[n] = re.sub(r'(?<=\w) *:', ':', groups[n])
 
     # SPACES AFTER COMMAS (BUT NOT BEFORE):
-    groups[n] = re.sub(r'(?<=\w) *, ?(?=\w)', ', ', groups[n])
+    groups[n] = re.sub(r'(?<=\w) *, *(?=\w)', ', ', groups[n])
 
     # NO DOUBLE SPACES:
     groups[n] = re.sub(r'(?<=\S) {2,}(?=\S)', ' ', groups[n])
