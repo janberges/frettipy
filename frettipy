@@ -122,6 +122,8 @@ while re.search('[([{]', code):
         print('\033[0;33mUnmatched parenthesis found!\033[0m')
         break
 
+# isolate NumPy arrays:
+
 code, N = re.subn(r'np\.array___\d+___', replace, code)
 
 for n in range(len(groups) - N, len(groups)):
