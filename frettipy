@@ -60,7 +60,10 @@ def main():
                     if not folder.startswith('.')]
 
                 for document in documents:
-                    if document.endswith('.py') and not document.startswith('.'):
+                    if document.startswith('.'):
+                        continue
+
+                    if document.endswith('.py'):
                         script = os.path.join(path, document)
 
                         print('\033[0;32mPrettifying file %s\033[0m' % script)
@@ -95,8 +98,8 @@ def prettify(code):
 
     # isolate strings:
 
-    code = re.sub(r'(\'\'\'|""")(|[\w\W]*?[^\\])\1|(\'|")(|.*?[^\\])\3', replace,
-        code)
+    code = re.sub(r'(\'\'\'|""")(|[\w\W]*?[^\\])\1|(\'|")(|.*?[^\\])\3',
+        replace, code)
 
     # isolate comments:
 
@@ -142,8 +145,8 @@ def prettify(code):
 
     keywords = {'and', 'as', 'assert', 'async', 'await', 'break', 'class',
         'continue', 'def', 'del', 'elif', 'else', 'except', 'finally', 'for',
-        'from', 'global', 'if', 'import', 'in', 'is', 'lambda', 'nonlocal', 'not',
-        'or', 'pass', 'raise', 'return', 'try', 'while', 'with', 'yield'}
+        'from', 'global', 'if', 'import', 'in', 'is', 'lambda', 'nonlocal',
+        'not', 'or', 'pass', 'raise', 'return', 'try', 'while', 'with', 'yield'}
 
     # fix style of all groups:
 
@@ -161,12 +164,13 @@ def prettify(code):
         groups[n] = re.sub(r'\B\.\d+\b', r'0\g<0>', groups[n])
 
         # SPACES AROUND BINARY OPERATOR:
-        groups[n] = re.sub(r'(\w+) *(%s) *(?=\w)' % binary, lambda match:
-            ('%s %s' if match.group(1) in keywords else '%s %s ') % match.groups(),
-            groups[n])
+        groups[n] = re.sub(r'(\w+) *(%s) *(?=\w)' % binary,
+            lambda match: ('%s %s' if match.group(1) in keywords else '%s %s ')
+            % match.groups(), groups[n])
 
         # NO SPACE AFTER UNARY OPERATOR:
-        groups[n] = re.sub(r'(?<![\w\s])( *(%s)) +(?=\w)' % unary, r'\1', groups[n])
+        groups[n] = re.sub(r'(?<![\w\s])( *(%s)) +(?=\w)' % unary, r'\1',
+            groups[n])
 
         # isolate unary operators:
         groups[n] = re.sub(r'(%s)(?=\w)' % unary, replace, groups[n])
@@ -216,8 +220,8 @@ def prettify(code):
         # NO SPACE BEFORE OPENING BRACKET (EXCEPT AFTER KEYWORD):
         groups[n] = re.sub(r'(\w+) *(___\d+___)', lambda match:
             match.group(1) + ' ' * (match.group(1) in keywords) + match.group(2)
-            if re.match('[([{]', dereference(match.group(2))) else match.group(0),
-            groups[n])
+            if re.match('[([{]', dereference(match.group(2))) else
+            match.group(0), groups[n])
 
     # reinsert isolated groups:
 
@@ -259,8 +263,10 @@ def prettifile(filename, modify=True):
         else:
             import difflib
 
-            for line in difflib.unified_diff(orig.splitlines(), code.splitlines(),
+            for line in difflib.unified_diff(
+                    orig.splitlines(), code.splitlines(),
                     fromfile=filename, tofile=filename, lineterm=''):
+
                 print(line)
 
     # show (too) long lines:
