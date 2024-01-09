@@ -15,6 +15,4 @@ classifiers = [
     "Operating System :: POSIX :: Linux",
 ]
 requires-python = ">=2.7"
-
-[tool.setuptools]
-script-files = ["frettipy"]
+scripts = {frettipy = "frettipy:main"}
