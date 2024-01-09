@@ -1,78 +1,58 @@
 #!/usr/bin/env python3
 
-"""Usage: frettipy [-f] [-r] FILE
+"""Usage: frettipy [-f] FILE
 
 This script formats Python source code following the below style conventions.
 
 If `-f` is present, `FILE` **is modified in place!** Keep a copy or use version
 control. Otherwise the intended modifications are shown without changing `FILE`.
 
-If `-r` is present and `FILE` is a directory, **all .py files in the directory
-tree are processed!**
+If `FILE` is a directory, **all .py files in the directory tree are processed!**
 """
 
+import os
 import re
 import sys
-
-def assist():
-    print(__doc__)
-
-    with open(__file__) as self:
-        for rule in re.findall(r'# ([^a-z]+):', self.read()):
-            print('*', rule.capitalize())
-
-    raise SystemExit
 
 def main():
     # parse arguments:
 
     modify = False
-    recurse = False
-    filename = None
 
     for arg in sys.argv[1:]:
-        if arg.startswith('--'):
-            assist()
-        elif arg.startswith('-'):
-            for letter in arg[1:]:
-                if letter == 'f':
-                    modify = True
-                elif letter == 'r':
-                    recurse = True
-                else:
-                    assist()
-        elif filename is None:
-            filename = arg
+        if arg == '-f':
+            modify = True
         else:
-            assist()
+            filename = arg
+            break
+    else:
+        print(__doc__)
 
-    if filename is None:
-        assist()
+        with open(__file__) as self:
+            for rule in re.findall(r'# ([^a-z]+):', self.read()):
+                print('*', rule.capitalize())
+
+        return
 
     # process all Python files in directory tree:
 
-    if recurse:
-        import os
+    if os.path.isdir(filename):
+        for path, folders, documents in os.walk(filename):
+            folders[:] = [folder for folder in folders
+                if not folder.startswith('.')]
 
-        if os.path.isdir(filename):
-            for path, folders, documents in os.walk(filename):
-                folders[:] = [folder for folder in folders
-                    if not folder.startswith('.')]
+            for document in documents:
+                if document.startswith('.'):
+                    continue
 
-                for document in documents:
-                    if document.startswith('.'):
-                        continue
+                if document.endswith('.py'):
+                    script = os.path.join(path, document)
 
-                    if document.endswith('.py'):
-                        script = os.path.join(path, document)
+                    print('\033[0;32mPrettifying file %s\033[0m' % script)
 
-                        print('\033[0;32mPrettifying file %s\033[0m' % script)
-
-                        prettifile(script, modify)
-
-            return
-
-    prettifile(filename, modify)
+                    prettifile(script, modify)
+    else:
+        prettifile(filename, modify)
 
 def prettify(code):
     # functions to isolate groups and put them back:

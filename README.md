@@ -27,13 +27,12 @@ No fretting about pretty Python.
 
 This script formats Python source code following the above style conventions.
 
-    frettipy [-f] [-r] FILE
+    frettipy [-f] FILE
 
 If `-f` is present, `FILE` **is modified in place!** Keep a copy or use version
 control. Otherwise the intended modifications are shown without changing `FILE`.
 
-If `-r` is present and `FILE` is a directory, **all .py files in the directory
-tree are processed!**
+If `FILE` is a directory, **all .py files in the directory tree are processed!**
 
 ## Installation
 
