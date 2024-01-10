@@ -8,7 +8,7 @@ version = "0.2"
 authors = [{name = "Jan Berges"}]
 description = "No fretting about pretty Python"
 readme = "README.md"
-urls = {homepage = "https://github.com/janberges/frettipy"}
+urls = {Homepage = "https://github.com/janberges/frettipy"}
 classifiers = [
     "Programming Language :: Python",
     "License :: Freely Distributable",
