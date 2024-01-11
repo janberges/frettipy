@@ -16,3 +16,6 @@ classifiers = [
 ]
 requires-python = ">=2.7"
 scripts = {frettipy = "frettipy:main"}
+
+[tool.setuptools]
+py-modules = ['frettipy']
