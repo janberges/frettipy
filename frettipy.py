@@ -215,8 +215,9 @@ def prettify(code):
     # NO TRAILING WHITESPACE:
     code = re.sub(' +$', '', code, flags=re.MULTILINE)
 
-    # NO DOUBLE BLANK LINES:
-    code = re.sub(r'\n{3,}', '\n' * 2, code)
+    # NO DOUBLE BLANK LINES (EXCEPT BEFORE CLASS OR FUNCTION):
+    code = re.sub(r'\n{4,}(?=class|def)', '\n' * 3, code)
+    code = re.sub(r'\n{3,}(?!class|def)', '\n' * 2, code)
 
     # NO BLANK LINE AT END OF FILE:
     code = re.sub(r'\n{2,}\Z', '\n' * 1, code)

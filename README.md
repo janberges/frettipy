@@ -19,7 +19,7 @@ No fretting about pretty Python.
 * No space before opening bracket (except after keyword)
 * Indentation with four spaces instead of tabs
 * No trailing whitespace
-* No double blank lines
+* No double blank lines (except before class or function)
 * No blank line at end of file
 * No blank line at beginning of file
 
