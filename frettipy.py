@@ -225,6 +225,9 @@ def prettify(code):
     # NO BLANK LINE AT BEGINNING OF FILE:
     code = re.sub(r'\A\n{1,}', '\n' * 0, code)
 
+    # NEWLINE CHARACTER AT END OF LAST LINE:
+    code = re.sub(r'(?<=[^\n])\Z', '\n', code)
+
     return code
 
 def prettifile(filename, modify=True):

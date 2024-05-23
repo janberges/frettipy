@@ -22,6 +22,7 @@ No fretting about pretty Python.
 * No double blank lines (except before class or function)
 * No blank line at end of file
 * No blank line at beginning of file
+* Newline character at end of last line
 
 ## Synopsis
 
