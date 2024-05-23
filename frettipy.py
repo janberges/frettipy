@@ -16,29 +16,47 @@ import os
 import re
 import sys
 
+def info(error=None):
+    if error is not None:
+        print('Error: %s.\n' % error)
+
+    print(__doc__)
+
+    with open(__file__) as self:
+        for rule in re.findall(r'# ([^a-z]+):', self.read()):
+            print('*', rule.capitalize())
+
+    sys.exit(error and 1)
+
 def main():
     # parse arguments:
 
     modify = False
+    filename = None
 
     for arg in sys.argv[1:]:
         if arg == '-f':
             modify = True
+        elif arg.startswith('-'):
+            info('Invalid argument %s' % arg)
         else:
-            filename = arg
-            break
-    else:
-        print(__doc__)
+            if filename is None:
+                filename = arg
+            else:
+                info('Two filenames specified')
 
-        with open(__file__) as self:
-            for rule in re.findall(r'# ([^a-z]+):', self.read()):
-                print('*', rule.capitalize())
+    if filename is None:
+        if modify:
+            info('No filename specified')
+        else:
+            info()
 
-        return
+    elif not os.path.exists(filename):
+        info('File "%s" does not exist' % filename)
 
-    # process all Python files in directory tree:
+    elif os.path.isdir(filename):
+        # process all Python files in directory tree:
 
-    if os.path.isdir(filename):
         for path, folders, documents in os.walk(filename):
             folders[:] = [folder for folder in folders
                 if not folder.startswith('.')]
