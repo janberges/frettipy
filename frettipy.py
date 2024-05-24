@@ -24,7 +24,7 @@ def info(error=None):
 
     with open(__file__) as self:
         for rule in re.findall(r'# ([^a-z]+):', self.read()):
-            print('*', rule.capitalize())
+            print('* ' + rule.capitalize())
 
     sys.exit(error and 1)
 
