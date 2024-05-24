@@ -34,6 +34,9 @@ def main():
     modify = False
     filename = None
 
+    if len(sys.argv) < 2:
+        info()
+
     for arg in sys.argv[1:]:
         if arg == '-f':
             modify = True
@@ -46,10 +49,7 @@ def main():
                 info('Two filenames specified')
 
     if filename is None:
-        if modify:
-            info('No filename specified')
-        else:
-            info()
+        info('No filename specified')
 
     elif not os.path.exists(filename):
         info('File "%s" does not exist' % filename)
