@@ -184,12 +184,13 @@ def prettify(code):
             groups[n] = re.sub(r'(?<=\w) *= *(?=\w)', '=', groups[n])
 
             # NO SPACE ON INNER SIDE OF BRACKET:
-            groups[n] = re.sub(r'([([{]) +(\S)', r'\1\2', groups[n])
-            groups[n] = re.sub(r'(\S) +([)\]}])', r'\1\2', groups[n])
+            groups[n] = re.sub(r'([([{]) +(?=\S)', r'\1', groups[n])
+            groups[n] = re.sub(r'(?<=\S) +([)\]}])', r'\1', groups[n])
 
             if re.match(r'\[', groups[n]):
                 # SLICES: NO SPACES AROUND SLICE OPERATOR:
-                groups[n] = re.sub(r' *(:|\.{3}) *', r'\1', groups[n])
+                groups[n] = re.sub(r'(:|\.{3}) +', r'\1', groups[n])
+                groups[n] = re.sub(r'(?<=\S) +(:|\.{3})', r'\1', groups[n])
 
                 # isolate slice operators:
                 groups[n] = re.sub(r'(:|\.{3})', replace, groups[n])
