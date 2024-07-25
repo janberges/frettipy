@@ -10,7 +10,7 @@ control. Otherwise the intended modifications are shown without changing `FILE`.
 If `FILE` is a directory, **all .py files in the directory tree are processed!**
 """
 
-__version__ = '0.4'
+__version__ = '0.5'
 
 import os
 import re
