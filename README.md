@@ -9,6 +9,7 @@ No fretting about pretty Python.
 * Spaces around comparison operator
 * No spaces around argument-assignment operator
 * No space on inner side of bracket
+* No explicit line joining in brackets
 * Slices: no spaces around slice operator
 * Dictionaries: space after colon (but not before)
 * Spaces around assignment operator
