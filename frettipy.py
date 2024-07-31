@@ -98,7 +98,7 @@ def prettify(code):
 
     # isolate strings:
 
-    code = re.sub(r'(\'\'\'|""")(|[\w\W]*?[^\\])\1|(\'|")(|.*?[^\\])\3',
+    code = re.sub(r'(\'\'\'|""")(|[\w\W]*?[^\\])\1|(\'|")(|(.|\\\n)*?[^\\])\3',
         replace, code)
 
     # isolate comments:
