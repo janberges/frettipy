@@ -211,7 +211,7 @@ def prettify(code):
             groups[n] = re.sub(r'(?<=\w) *:', ':', groups[n])
 
         # SPACE AFTER COMMA (BUT NOT BEFORE):
-        groups[n] = re.sub(r'(?<=\w) *, *(?=\w)', ', ', groups[n])
+        groups[n] = re.sub(r'(?<=\w) *, *(?=[\w*])', ', ', groups[n])
 
         # NO DOUBLE SPACES:
         groups[n] = re.sub(r'(?<=\S) {2,}(?=\S)', ' ', groups[n])
