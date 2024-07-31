@@ -188,7 +188,7 @@ def prettify(code):
             groups[n] = re.sub(r'(?<=\S) +([)\]}])', r'\1', groups[n])
 
             # NO EXPLICIT LINE JOINING IN BRACKETS:
-            groups[n] = re.sub(r' *\\ *\n', '\n', groups[n])
+            groups[n] = re.sub(r' *\\\n', '\n', groups[n])
 
             if re.match(r'\[', groups[n]):
                 # SLICES: NO SPACES AROUND SLICE OPERATOR:
