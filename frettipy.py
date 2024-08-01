@@ -161,8 +161,8 @@ def prettify(code):
             replace, groups[n])
 
         # DO NOT OMIT ZERO BEFORE OR AFTER DECIMAL POINT:
-        groups[n] = re.sub(r'\b\d+\.\B', r'\g<0>0', groups[n])
-        groups[n] = re.sub(r'\B\.\d+\b', r'0\g<0>', groups[n])
+        groups[n] = re.sub(r'\b[0-9]+\.\B', r'\g<0>0', groups[n])
+        groups[n] = re.sub(r'\B\.[0-9]+\b', r'0\g<0>', groups[n])
 
         # SPACES AROUND BINARY OPERATOR:
         groups[n] = re.sub(r'(\w+) *(%s) *(?=\w)' % binary,
