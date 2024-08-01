@@ -157,7 +157,8 @@ def prettify(code):
             continue
 
         # isolate exponential numbers:
-        groups[n] = re.sub('[0-9.]+e[+-]?[0-9]+', replace, groups[n])
+        groups[n] = re.sub(r'(\b[0-9]+\.?[0-9]*|\.[0-9]+)[Ee][+-]?[0-9]+[Jj]?',
+            replace, groups[n])
 
         # DO NOT OMIT ZERO BEFORE OR AFTER DECIMAL POINT:
         groups[n] = re.sub(r'\b\d+\.\B', r'\g<0>0', groups[n])
