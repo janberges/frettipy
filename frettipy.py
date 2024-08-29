@@ -7,7 +7,7 @@ This script formats Python source code following the below style conventions.
 If `-f` is present, `FILE` **is modified in place!** Keep a copy or use version
 control. Otherwise the intended modifications are shown without changing `FILE`.
 
-If `FILE` is a directory, **all .py files in the directory tree are processed!**
+If `FILE` is a directory, **all .py and .Rmd files in the tree are processed!**
 """
 
 __version__ = '0.5'
@@ -65,7 +65,7 @@ def main():
                 if document.startswith('.'):
                     continue
 
-                if document.endswith('.py'):
+                if document.endswith('.py') or document.endswith('.Rmd'):
                     script = os.path.join(path, document)
 
                     print('\033[0;32mPrettifying file %s\033[0m' % script)
@@ -107,6 +107,16 @@ def prettify(code):
 
     for n in range(len(groups) - N, len(groups)):
         groups[n] = dereference(groups[n])
+
+    # prettify only code sections in .Rmd files (outside strings or comments):
+
+    code, N = re.subn(r'(?<=```\{python\}\n)[\w\W]+?(?=```)', replace, code)
+
+    if N or code.startswith('---'):
+        for n in range(len(groups) - N, len(groups)):
+            groups[n] = prettify(dereference(groups[n]))
+
+        return dereference(code)
 
     # isolate expressions in brackets:
 

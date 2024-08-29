@@ -34,7 +34,7 @@ This script formats Python source code following the above style conventions.
 If `-f` is present, `FILE` **is modified in place!** Keep a copy or use version
 control. Otherwise the intended modifications are shown without changing `FILE`.
 
-If `FILE` is a directory, **all .py files in the directory tree are processed!**
+If `FILE` is a directory, **all .py and .Rmd files in the tree are processed!**
 
 ## Installation
 
