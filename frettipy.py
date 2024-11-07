@@ -10,7 +10,7 @@ control. Otherwise the intended modifications are shown without changing `FILE`.
 If `FILE` is a directory, **all .py and .Rmd files in the tree are processed!**
 """
 
-__version__ = '0.5'
+__version__ = '0.6'
 
 import os
 import re
