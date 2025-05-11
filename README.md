@@ -12,6 +12,7 @@ No fretting about pretty Python.
 * No explicit line joining in brackets
 * Slices: no spaces around slice operator
 * Dictionaries: space after colon (but not before)
+* Same indentation of lines with opening and closing bracket
 * Spaces around assignment operator
 * Block initiation: no space before colon
 * Space after comma (but not before)

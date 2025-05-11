@@ -213,6 +213,21 @@ def prettify(code):
                 # DICTIONARIES: SPACE AFTER COLON (BUT NOT BEFORE):
                 groups[n] = re.sub(r'(?<=\w) *: *(?=\w)', ': ', groups[n])
 
+            # SAME INDENTATION OF LINES WITH OPENING AND CLOSING BRACKET:
+            indent = r'\n[\t ]*'
+            ending = r'[)\]}]$'
+            if re.search(indent + ending, groups[n]):
+                group = '___%d___' % (n + 1)
+                for m in range(n + 1, len(groups)):
+                    if group in groups[m]:
+                        match = re.search(r'(%s).*%s' % (indent, group),
+                            groups[m])
+                        if match:
+                            groups[n] = re.sub('%s(?=%s)' % (indent, ending),
+                                match.group(1), groups[n])
+                            break
+                        else:
+                            group = '___%d___' % (m + 1)
         else:
             # SPACES AROUND ASSIGNMENT OPERATOR:
             groups[n] = re.sub(r'(?<=\w) *(%s) *(?=\w)' % assignment, r' \1 ',
