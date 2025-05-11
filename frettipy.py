@@ -148,7 +148,7 @@ def prettify(code):
 
     unary = r'\+|-|~|\^'
     binary = r'\+|-|\*\*?|//?|%|&|\||<<|>>'
-    comparison = '<=?|>=?|=='
+    comparison = '<=?|>=?|[=!]='
     assignment = '(%s)?=' % binary
 
     # define keywords, some of which indicate start of expression:
