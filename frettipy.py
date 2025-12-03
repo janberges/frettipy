@@ -96,6 +96,10 @@ def prettify(code):
 
     code = re.sub(r'(\'\'){5,}|(""){5,}', replace, code, flags=re.DOTALL)
 
+    # isolate even numbers of backslashes:
+
+    code = re.sub(r'(\\\\)+', replace, code)
+
     # isolate strings:
 
     code = re.sub(r'(\'\'\'|""")(|[\w\W]*?[^\\])\1|(\'|")(|(.|\\\n)*?[^\\])\3',
