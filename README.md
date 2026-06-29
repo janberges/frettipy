@@ -41,8 +41,13 @@ If `FILE` is a directory, **all .py and .Rmd files in the tree are processed!**
 
 Either from PyPI:
 
-    python3 -m pip install frettipy
+    python3 -m pip install --upgrade frettipy
 
-Or from GitHub:
+From conda-forge:
 
-    python3 -m pip install git+https://github.com/janberges/frettipy
+    conda install conda-forge::frettipy
+
+Or from the repository:
+
+    git clone https://github.com/janberges/frettipy
+    python3 -m pip install -e frettipy
